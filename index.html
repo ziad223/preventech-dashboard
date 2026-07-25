@@ -1204,6 +1204,194 @@
             </div>
           </div>
 
+          <!-- SECTION: ACHIEVEMENTS & GALLERY MANAGER -->
+          <div class="panel" style="margin-bottom:24px;">
+            <div class="panel-head">
+              <h3>🏆 <span class="t-ar">إدارة سيكشن الإنجازات والمعرض الصوري</span><span class="t-en">Achievements Section &amp; Gallery Manager</span></h3>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:20px; padding-top:4px;">
+
+              <!-- Title -->
+              <div class="grid-2-col">
+                <div>
+                  <label style="font-size:.82rem; font-weight:700; color:var(--ink-soft);"><span class="t-ar">عنوان القسم الرئيسي (عربي)</span><span class="t-en">Section Title (Arabic)</span></label>
+                  <input type="text" id="cms_achieve_title_ar" value="PrevenTech ضمن المعسكر التدريبي الوطني للذكاء الاصطناعي الصحي" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:var(--field-bg); color:var(--ink); margin-top:4px;">
+                </div>
+                <div>
+                  <label style="font-size:.82rem; font-weight:700; color:var(--ink-soft);"><span class="t-ar">عنوان القسم الرئيسي (English)</span><span class="t-en">Section Title (English)</span></label>
+                  <input type="text" id="cms_achieve_title_en" value="PrevenTech at the National Healthcare AI Sandbox Boot Camp" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:var(--field-bg); color:var(--ink); margin-top:4px;">
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="grid-2-col">
+                <div>
+                  <label style="font-size:.82rem; font-weight:700; color:var(--ink-soft);"><span class="t-ar">النص الوصفي (عربي)</span><span class="t-en">Description (Arabic)</span></label>
+                  <textarea id="cms_achieve_desc_ar" rows="4" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:var(--field-bg); color:var(--ink); margin-top:4px; resize:vertical;">شاركت PrevenTech في المعسكر التدريبي للبيئة التجريبية الوطنية للذكاء الاصطناعي في الصحة، بإشراف الشؤون الصحية بوزارة الحرس الوطني (MNGHA)، وتنظيم هيئة المنشآت الصغيرة والمتوسطة (منشآت)، بالشراكة مع الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA)، والمركز الوطني لتنمية التقنية (NTDP)، والهيئة العامة للغذاء والدواء، إلى جانب Siemens Healthineers وHUMAIN وجهات رائدة أخرى، خلال الفترة من 19 أبريل حتى 18 يونيو 2026.</textarea>
+                </div>
+                <div>
+                  <label style="font-size:.82rem; font-weight:700; color:var(--ink-soft);"><span class="t-ar">النص الوصفي (English)</span><span class="t-en">Description (English)</span></label>
+                  <textarea id="cms_achieve_desc_en" rows="4" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid var(--line); background:var(--field-bg); color:var(--ink); margin-top:4px; resize:vertical;">PrevenTech took part in the National Healthcare AI Sandbox Boot Camp, held under the supervision of the Ministry of National Guard Health Affairs (MNGHA) and organized by Monsha'at in partnership with SDAIA, NTDP, the Saudi Food &amp; Drug Authority, Siemens Healthineers, HUMAIN, and other leading organizations, running from April 19 to June 18, 2026.</textarea>
+                </div>
+              </div>
+
+              <!-- Highlight Pills (4 Cards) -->
+              <div>
+                <label style="font-size:.84rem; font-weight:700; color:var(--purple-deep); margin-bottom:12px; display:block;">🎯 <span class="t-ar">بطاقات الإنجازات الأربعة</span><span class="t-en">4 Achievement Highlight Cards</span></label>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+
+                  <!-- Pill 1 -->
+                  <div style="background:var(--field-bg); padding:14px 16px; border-radius:14px; border:1px solid var(--line);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                      <input type="text" id="cms_achieve_pill1_icon" value="🏛️" style="width:54px; text-align:center; font-size:1.2rem; padding:6px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      <b style="font-size:.85rem; color:var(--purple-deep);">1️⃣ <span class="t-ar">البطاقة الأولى</span><span class="t-en">Card 1</span></b>
+                    </div>
+                    <div class="grid-2-col" style="gap:10px;">
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill1_title_ar" value="إشراف وتنظيم رسمي" placeholder="العنوان (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill1_desc_ar" value="MNGHA • منشآت • SDAIA" placeholder="الوصف (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill1_title_en" value="Official Governance" placeholder="Title (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill1_desc_en" value="MNGHA • Monsha'at • SDAIA" placeholder="Description (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pill 2 -->
+                  <div style="background:var(--field-bg); padding:14px 16px; border-radius:14px; border:1px solid var(--line);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                      <input type="text" id="cms_achieve_pill2_icon" value="🗓️" style="width:54px; text-align:center; font-size:1.2rem; padding:6px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      <b style="font-size:.85rem; color:var(--purple-deep);">2️⃣ <span class="t-ar">البطاقة الثانية</span><span class="t-en">Card 2</span></b>
+                    </div>
+                    <div class="grid-2-col" style="gap:10px;">
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill2_title_ar" value="مدة المعسكر" placeholder="العنوان (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill2_desc_ar" value="19 أبريل - 18 يونيو 2026" placeholder="الوصف (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill2_title_en" value="Boot Camp Duration" placeholder="Title (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill2_desc_en" value="April 19 - June 18, 2026" placeholder="Description (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pill 3 -->
+                  <div style="background:var(--field-bg); padding:14px 16px; border-radius:14px; border:1px solid var(--line);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                      <input type="text" id="cms_achieve_pill3_icon" value="🤝" style="width:54px; text-align:center; font-size:1.2rem; padding:6px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      <b style="font-size:.85rem; color:var(--purple-deep);">3️⃣ <span class="t-ar">البطاقة الثالثة</span><span class="t-en">Card 3</span></b>
+                    </div>
+                    <div class="grid-2-col" style="gap:10px;">
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill3_title_ar" value="شركاء التقنية" placeholder="العنوان (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill3_desc_ar" value="Siemens Healthineers &amp; HUMAIN" placeholder="الوصف (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill3_title_en" value="Global Tech Partners" placeholder="Title (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill3_desc_en" value="Siemens Healthineers &amp; HUMAIN" placeholder="Description (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pill 4 -->
+                  <div style="background:var(--field-bg); padding:14px 16px; border-radius:14px; border:1px solid var(--line);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                      <input type="text" id="cms_achieve_pill4_icon" value="🏆" style="width:54px; text-align:center; font-size:1.2rem; padding:6px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      <b style="font-size:.85rem; color:var(--purple-deep);">4️⃣ <span class="t-ar">البطاقة الرابعة</span><span class="t-en">Card 4</span></b>
+                    </div>
+                    <div class="grid-2-col" style="gap:10px;">
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill4_title_ar" value="الاعتماد التقني" placeholder="العنوان (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill4_desc_ar" value="البيئة التجريبية الوطنية (Sandbox)" placeholder="الوصف (عربي)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:8px;">
+                        <input type="text" id="cms_achieve_pill4_title_en" value="AI Certification" placeholder="Title (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                        <input type="text" id="cms_achieve_pill4_desc_en" value="National Health AI Sandbox" placeholder="Description (English)" style="width:100%; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Gallery Images (5 slots) -->
+              <div>
+                <label style="font-size:.84rem; font-weight:700; color:var(--purple-deep); margin-bottom:6px; display:block;">📸 <span class="t-ar">صور معرض الإنجازات (5 صور) — انقر على أي إطار لرفع صورة</span><span class="t-en">Achievement Gallery (5 Photos) — Click any slot to upload</span></label>
+                <p style="font-size:.78rem; color:var(--ink-soft); margin-bottom:14px; line-height:1.6;"><span class="t-ar">الصور المرفوعة تحل فوراً محل الصور الحالية في الموقع عند الضغط على زر «تحديث الموقع».</span><span class="t-en">Uploaded images replace current gallery photos instantly when you click "Update Website".</span></p>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+
+                  <!-- Slot 0 -->
+                  <div style="border:2px dashed var(--purple); border-radius:14px; overflow:hidden; cursor:pointer; position:relative; aspect-ratio:4/3; background:var(--field-bg); transition:border-color .2s;" onclick="document.getElementById('achieveFile0').click()" onmouseenter="this.style.borderColor='var(--success)'" onmouseleave="this.style.borderColor='var(--purple)'">
+                    <input type="file" id="achieveFile0" accept="image/*" style="display:none;" data-slot="0">
+                    <img id="achieveImgPreview0" src="" alt="" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; inset:0;">
+                    <div id="achieveImgPlaceholder0" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-soft);">
+                      <span style="font-size:1.6rem;">📤</span>
+                      <span style="font-size:.75rem; font-weight:700;"><span class="t-ar">صورة 1</span><span class="t-en">Photo 1</span></span>
+                    </div>
+                    <div id="achieveImgOverlay0" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.65); color:#fff; font-size:.72rem; font-weight:700; text-align:center; padding:6px 8px; display:none; border-radius:0 0 12px 12px; align-items:center; justify-content:center;">
+                      <span>📷 <span class="t-ar">انقر لتغيير الصورة 🔄</span><span class="t-en">Click to Change 🔄</span></span>
+                    </div>
+                  </div>
+
+                  <!-- Slot 1 -->
+                  <div style="border:2px dashed var(--purple); border-radius:14px; overflow:hidden; cursor:pointer; position:relative; aspect-ratio:4/3; background:var(--field-bg); transition:border-color .2s;" onclick="document.getElementById('achieveFile1').click()" onmouseenter="this.style.borderColor='var(--success)'" onmouseleave="this.style.borderColor='var(--purple)'">
+                    <input type="file" id="achieveFile1" accept="image/*" style="display:none;" data-slot="1">
+                    <img id="achieveImgPreview1" src="" alt="" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; inset:0;">
+                    <div id="achieveImgPlaceholder1" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-soft);">
+                      <span style="font-size:1.6rem;">📤</span>
+                      <span style="font-size:.75rem; font-weight:700;"><span class="t-ar">صورة 2</span><span class="t-en">Photo 2</span></span>
+                    </div>
+                    <div id="achieveImgOverlay1" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.65); color:#fff; font-size:.72rem; font-weight:700; text-align:center; padding:6px 8px; display:none; border-radius:0 0 12px 12px; align-items:center; justify-content:center;">
+                      <span>📷 <span class="t-ar">انقر لتغيير الصورة 🔄</span><span class="t-en">Click to Change 🔄</span></span>
+                    </div>
+                  </div>
+
+                  <!-- Slot 2 -->
+                  <div style="border:2px dashed var(--purple); border-radius:14px; overflow:hidden; cursor:pointer; position:relative; aspect-ratio:4/3; background:var(--field-bg); transition:border-color .2s;" onclick="document.getElementById('achieveFile2').click()" onmouseenter="this.style.borderColor='var(--success)'" onmouseleave="this.style.borderColor='var(--purple)'">
+                    <input type="file" id="achieveFile2" accept="image/*" style="display:none;" data-slot="2">
+                    <img id="achieveImgPreview2" src="" alt="" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; inset:0;">
+                    <div id="achieveImgPlaceholder2" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-soft);">
+                      <span style="font-size:1.6rem;">📤</span>
+                      <span style="font-size:.75rem; font-weight:700;"><span class="t-ar">صورة 3</span><span class="t-en">Photo 3</span></span>
+                    </div>
+                    <div id="achieveImgOverlay2" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.65); color:#fff; font-size:.72rem; font-weight:700; text-align:center; padding:6px 8px; display:none; border-radius:0 0 12px 12px; align-items:center; justify-content:center;">
+                      <span>📷 <span class="t-ar">انقر لتغيير الصورة 🔄</span><span class="t-en">Click to Change 🔄</span></span>
+                    </div>
+                  </div>
+
+                  <!-- Slot 3 -->
+                  <div style="border:2px dashed var(--purple); border-radius:14px; overflow:hidden; cursor:pointer; position:relative; aspect-ratio:4/3; background:var(--field-bg); transition:border-color .2s;" onclick="document.getElementById('achieveFile3').click()" onmouseenter="this.style.borderColor='var(--success)'" onmouseleave="this.style.borderColor='var(--purple)'">
+                    <input type="file" id="achieveFile3" accept="image/*" style="display:none;" data-slot="3">
+                    <img id="achieveImgPreview3" src="" alt="" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; inset:0;">
+                    <div id="achieveImgPlaceholder3" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-soft);">
+                      <span style="font-size:1.6rem;">📤</span>
+                      <span style="font-size:.75rem; font-weight:700;"><span class="t-ar">صورة 4</span><span class="t-en">Photo 4</span></span>
+                    </div>
+                    <div id="achieveImgOverlay3" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.65); color:#fff; font-size:.72rem; font-weight:700; text-align:center; padding:6px 8px; display:none; border-radius:0 0 12px 12px; align-items:center; justify-content:center;">
+                      <span>📷 <span class="t-ar">انقر لتغيير الصورة 🔄</span><span class="t-en">Click to Change 🔄</span></span>
+                    </div>
+                  </div>
+
+                  <!-- Slot 4 -->
+                  <div style="border:2px dashed var(--purple); border-radius:14px; overflow:hidden; cursor:pointer; position:relative; aspect-ratio:4/3; background:var(--field-bg); transition:border-color .2s;" onclick="document.getElementById('achieveFile4').click()" onmouseenter="this.style.borderColor='var(--success)'" onmouseleave="this.style.borderColor='var(--purple)'">
+                    <input type="file" id="achieveFile4" accept="image/*" style="display:none;" data-slot="4">
+                    <img id="achieveImgPreview4" src="" alt="" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; inset:0;">
+                    <div id="achieveImgPlaceholder4" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-soft);">
+                      <span style="font-size:1.6rem;">📤</span>
+                      <span style="font-size:.75rem; font-weight:700;"><span class="t-ar">صورة 5</span><span class="t-en">Photo 5</span></span>
+                    </div>
+                    <div id="achieveImgOverlay4" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.65); color:#fff; font-size:.72rem; font-weight:700; text-align:center; padding:6px 8px; display:none; border-radius:0 0 12px 12px; align-items:center; justify-content:center;">
+                      <span>📷 <span class="t-ar">انقر لتغيير الصورة 🔄</span><span class="t-en">Click to Change 🔄</span></span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <!-- SECTION 7: BOOKING AVAILABILITY & CALENDAR CONTROLLER -->
           <div class="panel" style="margin-bottom:24px;">
             <div class="panel-head">
@@ -1263,36 +1451,7 @@
             </div>
           </div>
 
-          <!-- SECTION 8: PAGE SECTIONS & VISIBILITY CONTROLLER -->
-          <div class="panel" style="margin-bottom:24px;">
-            <div class="panel-head">
-              <h3>🎛️ <span class="t-ar">إدارة إظهار وتفعيل أقسام الموقع الرئيسية</span><span class="t-en">Page Sections
-                  Visibility Controls</span></h3>
-            </div>
-            <p style="font-size:.85rem; color:var(--ink-soft); margin-bottom:16px;">
-              <span class="t-ar">يمكنك تشغيل أو إخفاء أي قسم في الموقع بضغطة زر حسب الحاجة والتحديثات الدورية.</span>
-              <span class="t-en">Enable or hide any landing page section dynamically.</span>
-            </p>
 
-            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;" id="sectionVisibilityToggles">
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_hero" checked> <span>قسم الواجهة
-                  الرئيسية (Hero)</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_about" checked> <span>قسم من نحن
-                  (About Us)</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_solutions" checked> <span>قسم الحلول
-                  (Solutions)</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_why" checked> <span>قسم لماذا
-                  PrevenTech</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_tech" checked> <span>قسم تقنياتنا
-                  (Technologies)</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_process" checked> <span>قسم منهجية
-                  العمل (Process)</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_booking" checked> <span>قسم حجز
-                  الاستشارات (Booking)</span></label>
-              <label class="avail-day-chip"><input type="checkbox" id="sec_toggle_contact" checked> <span>قسم تواصل معنا
-                  (Contact)</span></label>
-            </div>
-          </div>
 
           <!-- SECTION 4: INNOVATION & WHY PREVENTECH (7 ITEMS) -->
           <div class="panel" style="margin-bottom:24px;">
@@ -1553,8 +1712,34 @@
     </div>
   </div>
 
+  <!-- ===== MODAL RECORD DETAILS PREVIEW ===== -->
+  <div class="modal-overlay" id="recordDetailsModal" style="z-index:999999;">
+    <div class="modal-card" style="max-width:620px; padding:28px;">
+      <div class="modal-head">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:42px; height:42px; border-radius:14px; background:var(--grad-soft); border:1px solid var(--purple); color:var(--purple-deep); font-size:1.3rem; display:flex; align-items:center; justify-content:center;">📋</div>
+          <div>
+            <h3 id="recordModalTitle" style="font-size:1.2rem; font-weight:800; margin:0;"><span class="t-ar">تفاصيل السجل</span><span class="t-en">Record Details</span></h3>
+            <span id="recordModalSubtitle" style="font-size:.78rem; color:var(--ink-soft);">PrevenTech Live Records</span>
+          </div>
+        </div>
+        <div class="close-modal" id="closeRecordDetailsModal">✕</div>
+      </div>
+      <div id="recordModalBody" style="display:flex; flex-direction:column; gap:16px; margin-top:20px;">
+        <!-- Filled dynamically -->
+      </div>
+      <div style="display:flex; align-items:center; justify-content:flex-end; gap:12px; margin-top:24px; border-top:1px solid var(--line); padding-top:18px;">
+        <button class="btn-action" id="deleteFromModalBtn" style="background:rgba(255,82,82,0.12); color:var(--danger); border-color:rgba(255,82,82,0.3); padding:10px 20px; font-weight:700;">
+          <span class="t-ar">حذف السجل 🗑️</span><span class="t-en">Delete Record 🗑️</span>
+        </button>
+        <button class="btn-primary" id="closeFromModalBtn" style="padding:10px 24px; font-weight:700;">
+          <span class="t-ar">إغلاق ✖</span><span class="t-en">Close ✖</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
  
 </body>
 

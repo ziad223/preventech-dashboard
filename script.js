@@ -96,6 +96,9 @@
             view.classList.remove('active');
             if (view.id === `view-${targetTab}`) {
               view.classList.add('active');
+              if (targetTab === 'cms' && typeof loadCmsFromStorage === 'function') {
+                loadCmsFromStorage();
+              }
             }
           });
 
@@ -223,8 +226,9 @@
     scanModal.addEventListener('click', (e) => { if (e.target === scanModal) scanModal.classList.remove('open'); });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        scanModal.classList.remove('open');
+        if (scanModal) scanModal.classList.remove('open');
         if (dailyReportModal) dailyReportModal.classList.remove('open');
+        if (recordDetailsModal) recordDetailsModal.classList.remove('open');
       }
     });
 
@@ -624,7 +628,26 @@
         p1_ar: 'PrevenTech هي شركة سعودية متخصصة في التقنية الصحية (HealthTech)، نطوّر حلولًا رقمية مبتكرة تعتمد على الذكاء الاصطناعي لمعالجة التحديات الصحية وتحسين كفاءة منظومة الرعاية الصحية.',
         p1_en: 'PrevenTech is a Saudi HealthTech company dedicated to developing innovative digital healthcare solutions powered by Artificial Intelligence.'
       },
-      why_items: JSON.parse(JSON.stringify(defaultWhyItems))
+      why_items: JSON.parse(JSON.stringify(defaultWhyItems)),
+      achievements: {
+        title_ar: 'PrevenTech ضمن المعسكر التدريبي الوطني للذكاء الاصطناعي الصحي',
+        title_en: 'PrevenTech at the National Healthcare AI Sandbox Boot Camp',
+        desc_ar: 'شاركت PrevenTech في المعسكر التدريبي للبيئة التجريبية الوطنية للذكاء الاصطناعي في الصحة، بإشراف الشؤون الصحية بوزارة الحرس الوطني (MNGHA)، وتنظيم هيئة المنشآت الصغيرة والمتوسطة (منشآت)، بالشراكة مع الهيئة السعودية للبيانات والذكاء الاصطناعي (SDAIA)، والمركز الوطني لتنمية التقنية (NTDP)، والهيئة العامة للغذاء والدواء، إلى جانب Siemens Healthineers وHUMAIN وجهات رائدة أخرى، خلال الفترة من 19 أبريل حتى 18 يونيو 2026.',
+        desc_en: 'PrevenTech took part in the National Healthcare AI Sandbox Boot Camp, held under the supervision of the Ministry of National Guard Health Affairs (MNGHA) and organized by Monsha\'at in partnership with SDAIA, NTDP, the Saudi Food & Drug Authority, Siemens Healthineers, HUMAIN, and other leading organizations, running from April 19 to June 18, 2026.',
+        pills: [
+          { icon: '🏛️', title_ar: 'إشراف وتنظيم رسمي', title_en: 'Official Governance', desc_ar: 'MNGHA • منشآت • SDAIA', desc_en: 'MNGHA • Monsha\'at • SDAIA' },
+          { icon: '🗓️', title_ar: 'مدة المعسكر', title_en: 'Boot Camp Duration', desc_ar: '19 أبريل - 18 يونيو 2026', desc_en: 'April 19 - June 18, 2026' },
+          { icon: '🤝', title_ar: 'شركاء التقنية', title_en: 'Global Tech Partners', desc_ar: 'Siemens Healthineers & HUMAIN', desc_en: 'Siemens Healthineers & HUMAIN' },
+          { icon: '🏆', title_ar: 'الاعتماد التقني', title_en: 'AI Certification', desc_ar: 'البيئة التجريبية الوطنية (Sandbox)', desc_en: 'National Health AI Sandbox' }
+        ],
+        gallery: [
+          '',
+          '',
+          '',
+          '',
+          ''
+        ]
+      }
     };
 
     // Image Upload Dropzone Handling
@@ -697,9 +720,12 @@
         const reader = new FileReader();
         reader.onload = (evt) => {
           const base64Data = evt.target.result;
+          if (!cmsData.hero) cmsData.hero = {};
           cmsData.hero.img = base64Data;
           updateImagePreviewUI(base64Data, file.name);
-          showToast('تم اختيار الصورة 🖼️', `تم تجهيز الصورة "${file.name}" اضغط تحديث الواجهة للنشر.`, 'info');
+          saveCmsToStorage(false);
+          if (cmsHeroFileInput) cmsHeroFileInput.value = '';
+          showToast('تم حفظ اللوجو 🖼️', `تم تثبيت صورة اللوجو "${file.name}" وتحديث الموقع فوراً.`, 'success');
         };
         reader.readAsDataURL(file);
       }
@@ -798,8 +824,90 @@
         if (document.getElementById('sec_toggle_contact')) document.getElementById('sec_toggle_contact').checked = cmsData.visibility.contact !== false;
       }
 
+      if (cmsData.achievements) {
+        if (document.getElementById('cms_achieve_title_ar')) document.getElementById('cms_achieve_title_ar').value = cmsData.achievements.title_ar || '';
+        if (document.getElementById('cms_achieve_title_en')) document.getElementById('cms_achieve_title_en').value = cmsData.achievements.title_en || '';
+        if (document.getElementById('cms_achieve_desc_ar')) document.getElementById('cms_achieve_desc_ar').value = cmsData.achievements.desc_ar || '';
+        if (document.getElementById('cms_achieve_desc_en')) document.getElementById('cms_achieve_desc_en').value = cmsData.achievements.desc_en || '';
+
+        if (Array.isArray(cmsData.achievements.pills)) {
+          cmsData.achievements.pills.forEach((p, i) => {
+            const idx = i + 1;
+            if (document.getElementById(`cms_achieve_pill${idx}_icon`)) document.getElementById(`cms_achieve_pill${idx}_icon`).value = p.icon || '';
+            if (document.getElementById(`cms_achieve_pill${idx}_title_ar`)) document.getElementById(`cms_achieve_pill${idx}_title_ar`).value = p.title_ar || '';
+            if (document.getElementById(`cms_achieve_pill${idx}_title_en`)) document.getElementById(`cms_achieve_pill${idx}_title_en`).value = p.title_en || '';
+            if (document.getElementById(`cms_achieve_pill${idx}_desc_ar`)) document.getElementById(`cms_achieve_pill${idx}_desc_ar`).value = p.desc_ar || '';
+            if (document.getElementById(`cms_achieve_pill${idx}_desc_en`)) document.getElementById(`cms_achieve_pill${idx}_desc_en`).value = p.desc_en || '';
+          });
+        }
+
+        if (Array.isArray(cmsData.achievements.gallery)) {
+          cmsData.achievements.gallery.forEach((src, idx) => {
+            updateAchieveGalleryPreview(idx, src);
+          });
+        }
+      }
+
       renderWhyItemsInputs();
     }
+
+    function updateAchieveGalleryPreview(slotIdx, src) {
+      const imgPreview = document.getElementById(`achieveImgPreview${slotIdx}`);
+      const placeholder = document.getElementById(`achieveImgPlaceholder${slotIdx}`);
+      const overlay = document.getElementById(`achieveImgOverlay${slotIdx}`);
+      if (!imgPreview) return;
+
+      if (src && src.length > 5) {
+        imgPreview.src = src;
+        imgPreview.style.display = 'block';
+        if (placeholder) placeholder.style.display = 'none';
+        if (overlay) overlay.style.display = 'flex';
+      } else {
+        imgPreview.src = '';
+        imgPreview.style.display = 'none';
+        if (placeholder) placeholder.style.display = 'flex';
+        if (overlay) overlay.style.display = 'none';
+      }
+    }
+
+    // Attach File Upload Event Listeners for 5 Gallery Slots
+    for (let slot = 0; slot < 5; slot++) {
+      const fileInp = document.getElementById(`achieveFile${slot}`);
+      if (fileInp) {
+        fileInp.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            if (!file.type.startsWith('image/')) {
+              showToast('خطأ في الملف', 'يرجى اختيار صورة صالحة.', 'danger');
+              return;
+            }
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+              const base64 = evt.target.result;
+              if (!cmsData.achievements) cmsData.achievements = {};
+              if (!Array.isArray(cmsData.achievements.gallery)) cmsData.achievements.gallery = ['', '', '', '', ''];
+              cmsData.achievements.gallery[slot] = base64;
+              updateAchieveGalleryPreview(slot, base64);
+              saveCmsToStorage(false);
+              fileInp.value = '';
+              showToast('تم تثبيت الصورة 🖼️', `تم رفع صورة المعرض (${slot + 1}) وحفظها بنجاح!`, 'success');
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    }
+
+    window.removeAchieveGalleryImg = function(slotIdx) {
+      if (!cmsData.achievements) cmsData.achievements = {};
+      if (!Array.isArray(cmsData.achievements.gallery)) cmsData.achievements.gallery = ['', '', '', '', ''];
+      cmsData.achievements.gallery[slotIdx] = '';
+      const fileInp = document.getElementById(`achieveFile${slotIdx}`);
+      if (fileInp) fileInp.value = '';
+      updateAchieveGalleryPreview(slotIdx, '');
+      saveCmsToStorage(false);
+      showToast('تم حذف الصورة 🗑️', `تم إزالة الصورة (${slotIdx + 1}) وحفظ التعديل.`, 'info');
+    };
 
     function readFormToCmsData() {
       cmsData.hero = {
@@ -832,6 +940,44 @@
       cmsData.process = {
         title_ar: document.getElementById('cms_process_title_ar') ? document.getElementById('cms_process_title_ar').value.trim() : '',
         title_en: document.getElementById('cms_process_title_en') ? document.getElementById('cms_process_title_en').value.trim() : ''
+      };
+
+      cmsData.achievements = {
+        title_ar: document.getElementById('cms_achieve_title_ar') ? document.getElementById('cms_achieve_title_ar').value.trim() : '',
+        title_en: document.getElementById('cms_achieve_title_en') ? document.getElementById('cms_achieve_title_en').value.trim() : '',
+        desc_ar: document.getElementById('cms_achieve_desc_ar') ? document.getElementById('cms_achieve_desc_ar').value.trim() : '',
+        desc_en: document.getElementById('cms_achieve_desc_en') ? document.getElementById('cms_achieve_desc_en').value.trim() : '',
+        pills: [
+          {
+            icon: document.getElementById('cms_achieve_pill1_icon') ? document.getElementById('cms_achieve_pill1_icon').value.trim() : '🏛️',
+            title_ar: document.getElementById('cms_achieve_pill1_title_ar') ? document.getElementById('cms_achieve_pill1_title_ar').value.trim() : '',
+            title_en: document.getElementById('cms_achieve_pill1_title_en') ? document.getElementById('cms_achieve_pill1_title_en').value.trim() : '',
+            desc_ar: document.getElementById('cms_achieve_pill1_desc_ar') ? document.getElementById('cms_achieve_pill1_desc_ar').value.trim() : '',
+            desc_en: document.getElementById('cms_achieve_pill1_desc_en') ? document.getElementById('cms_achieve_pill1_desc_en').value.trim() : ''
+          },
+          {
+            icon: document.getElementById('cms_achieve_pill2_icon') ? document.getElementById('cms_achieve_pill2_icon').value.trim() : '🗓️',
+            title_ar: document.getElementById('cms_achieve_pill2_title_ar') ? document.getElementById('cms_achieve_pill2_title_ar').value.trim() : '',
+            title_en: document.getElementById('cms_achieve_pill2_title_en') ? document.getElementById('cms_achieve_pill2_title_en').value.trim() : '',
+            desc_ar: document.getElementById('cms_achieve_pill2_desc_ar') ? document.getElementById('cms_achieve_pill2_desc_ar').value.trim() : '',
+            desc_en: document.getElementById('cms_achieve_pill2_desc_en') ? document.getElementById('cms_achieve_pill2_desc_en').value.trim() : ''
+          },
+          {
+            icon: document.getElementById('cms_achieve_pill3_icon') ? document.getElementById('cms_achieve_pill3_icon').value.trim() : '🤝',
+            title_ar: document.getElementById('cms_achieve_pill3_title_ar') ? document.getElementById('cms_achieve_pill3_title_ar').value.trim() : '',
+            title_en: document.getElementById('cms_achieve_pill3_title_en') ? document.getElementById('cms_achieve_pill3_title_en').value.trim() : '',
+            desc_ar: document.getElementById('cms_achieve_pill3_desc_ar') ? document.getElementById('cms_achieve_pill3_desc_ar').value.trim() : '',
+            desc_en: document.getElementById('cms_achieve_pill3_desc_en') ? document.getElementById('cms_achieve_pill3_desc_en').value.trim() : ''
+          },
+          {
+            icon: document.getElementById('cms_achieve_pill4_icon') ? document.getElementById('cms_achieve_pill4_icon').value.trim() : '🏆',
+            title_ar: document.getElementById('cms_achieve_pill4_title_ar') ? document.getElementById('cms_achieve_pill4_title_ar').value.trim() : '',
+            title_en: document.getElementById('cms_achieve_pill4_title_en') ? document.getElementById('cms_achieve_pill4_title_en').value.trim() : '',
+            desc_ar: document.getElementById('cms_achieve_pill4_desc_ar') ? document.getElementById('cms_achieve_pill4_desc_ar').value.trim() : '',
+            desc_en: document.getElementById('cms_achieve_pill4_desc_en') ? document.getElementById('cms_achieve_pill4_desc_en').value.trim() : ''
+          }
+        ],
+        gallery: (cmsData.achievements && Array.isArray(cmsData.achievements.gallery)) ? cmsData.achievements.gallery : ['', '', '', '', '']
       };
 
       cmsData.contact = {
@@ -922,9 +1068,7 @@
       });
     }
 
-    loadCmsFromStorage();
-
-    // ================= LIVE WEBSITE BOOKINGS SYNC ENGINE =================
+    // ================= LIVE WEBSITE BOOKINGS & LEADS DEFAULTS =================
     const defaultBookings = [
       {
         id: 'BK-9841',
@@ -935,6 +1079,7 @@
         solution: 'Mo\'eenTech AI',
         date: '26 يوليو 2026',
         time: '10:00 صباحاً',
+        notes: 'طلب دمج واستشارة لتجربة فحص القدم السكرية في عيادات المستشفى.',
         status: 'مؤكدة'
       },
       {
@@ -946,10 +1091,201 @@
         solution: 'Healora',
         date: '27 يوليو 2026',
         time: '11:30 صباحاً',
+        notes: 'استشارة حول منصة التشخيص المبكر والربط السحابي.',
         status: 'مؤكدة'
       }
     ];
 
+    const defaultLeads = [
+      {
+        id: 'LD-1042',
+        name: 'د. فهد العتيبي',
+        title: 'مدير الشؤون الطبية',
+        org: 'مستشفى السلام الدولي',
+        email: 'fahad@alsalam-hospital.sa',
+        phone: '+966 50 888 1122',
+        inquiry: 'طلب استشارة في تقنيات الرعاية الصحية',
+        solution: 'Mo\'eenTech AI',
+        message: 'طلب استشارة واجتماع دمج لأنظمة الذكاء الاصطناعي مع المستشفى.',
+        date: 'اليوم 11:20 AM'
+      },
+      {
+        id: 'LD-1041',
+        name: 'أ. مريم الدوسري',
+        title: 'رئيسة التحول الرقمي',
+        org: 'مدينة الملك عبدالملك الطبية',
+        email: 'm.dosari@kkmc.med.sa',
+        phone: '+966 55 443 9911',
+        inquiry: 'استفسار عن حلول الذكاء الاصطناعي',
+        solution: 'Healora',
+        message: 'استفسار حول حلول التشخيص المبكر وتراخيص SaMD.',
+        date: 'أمس 04:15 PM'
+      }
+    ];
+
+    // ================= RECORD DETAILS MODAL & DELETE ENGINE =================
+    function hideRecordModal() {
+      const modal = document.getElementById('recordDetailsModal');
+      if (modal) {
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+      }
+    }
+
+    const closeRecordDetailsModal = document.getElementById('closeRecordDetailsModal');
+    const closeFromModalBtn = document.getElementById('closeFromModalBtn');
+
+    if (closeRecordDetailsModal) closeRecordDetailsModal.addEventListener('click', hideRecordModal);
+    if (closeFromModalBtn) closeFromModalBtn.addEventListener('click', hideRecordModal);
+    
+    document.addEventListener('click', (e) => {
+      const modal = document.getElementById('recordDetailsModal');
+      if (e.target === modal) hideRecordModal();
+    });
+
+    // View & Delete Handlers for Bookings
+    window.viewBookingDetails = function (id) {
+      let bookings = [];
+      try {
+        const raw = localStorage.getItem('preventech_bookings');
+        if (raw) bookings = JSON.parse(raw);
+      } catch (e) { }
+      if (!bookings || bookings.length === 0) bookings = defaultBookings;
+
+      const b = bookings.find(item => item.id === id) || bookings[0];
+      if (!b) return;
+
+      const titleEl = document.getElementById('recordModalTitle');
+      const subEl = document.getElementById('recordModalSubtitle');
+      const bodyEl = document.getElementById('recordModalBody');
+      const delBtn = document.getElementById('deleteFromModalBtn');
+
+      if (titleEl) titleEl.innerHTML = `<span class="t-ar">معاينة حجز الموعد 📅</span><span class="t-en">Booking Details 📅</span>`;
+      if (subEl) subEl.textContent = `${b.name} • ${b.id}`;
+
+      if (bodyEl) {
+        bodyEl.innerHTML = `
+        <div style="background:var(--field-bg); padding:18px; border-radius:16px; border:1px solid var(--line); display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <b style="font-size:1.1rem; color:var(--ink);">${b.name}</b>
+            <span class="status-tag status-confirmed">● ${b.status || 'مؤكدة'}</span>
+          </div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">🏥 <b>الجهة الصحية / المنشأة:</b> ${b.org || 'منشأة صحية'}</div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">📧 <b>البريد الإلكتروني:</b> ${b.email || 'غير محدد'}</div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">📞 <b>رقم الجوال والتواصل:</b> ${b.phone || 'غير محدد'}</div>
+          <div style="font-size:.88rem; color:var(--purple-deep); font-weight:700;">⚙️ <b>الحل المطلوب:</b> ${b.solution || 'استشارة تقنية'}</div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">📅 <b>التاريخ والوقت المحدد:</b> ${b.date} • ${b.time}</div>
+          ${b.notes ? `<div style="font-size:.86rem; color:var(--ink); background:var(--card); padding:12px 14px; border-radius:12px; border:1px solid var(--line); margin-top:4px;"><b>📝 الملاحظات والتفاصيل:</b><br>${b.notes}</div>` : ''}
+        </div>
+      `;
+      }
+
+      if (delBtn) delBtn.onclick = () => window.deleteBookingItem(b.id);
+      const modal = document.getElementById('recordDetailsModal');
+      if (modal) {
+        modal.classList.add('open');
+        modal.style.display = 'flex';
+      }
+    };
+
+    window.deleteBookingItem = function (id) {
+      const isAr = document.body.classList.contains('lang-ar');
+      showConfirm(
+        isAr ? 'تأكيد الحذف' : 'Confirm Deletion',
+        isAr ? 'هل أنت تأكد من حذف هذا الحجز نهائياً من لوحة التحكم؟' : 'Are you sure you want to delete this booking?',
+        () => {
+          let bookings = [];
+          try {
+            const raw = localStorage.getItem('preventech_bookings');
+            if (raw) bookings = JSON.parse(raw);
+          } catch (e) { }
+          if (!bookings || bookings.length === 0) bookings = [...defaultBookings];
+
+          const filtered = bookings.filter(b => b.id !== id);
+          localStorage.setItem('preventech_bookings', JSON.stringify(filtered));
+          window.dispatchEvent(new Event('storage'));
+          renderLiveDashboardBookings();
+          renderLiveDashboardNotifications();
+
+          hideRecordModal();
+          showToast(isAr ? 'تم الحذف بنجاح 🗑️' : 'Deleted Successfully 🗑️', isAr ? 'تم حذف الحجز وإزالته من القائمة.' : 'Booking record deleted.', 'success');
+        }
+      );
+    };
+
+    // View & Delete Handlers for Leads / Inquiries
+    window.viewLeadDetails = function (id) {
+      let leads = [];
+      try {
+        const raw = localStorage.getItem('preventech_leads');
+        if (raw) leads = JSON.parse(raw);
+      } catch (e) { }
+      if (!leads || leads.length === 0) leads = defaultLeads;
+
+      const l = leads.find(item => item.id === id) || leads[0];
+      if (!l) return;
+
+      const titleEl = document.getElementById('recordModalTitle');
+      const subEl = document.getElementById('recordModalSubtitle');
+      const bodyEl = document.getElementById('recordModalBody');
+      const delBtn = document.getElementById('deleteFromModalBtn');
+
+      if (titleEl) titleEl.innerHTML = `<span class="t-ar">معاينة استفسار العميل 📩</span><span class="t-en">Inquiry Details 📩</span>`;
+      if (subEl) subEl.textContent = `${l.name} • ${l.id || 'Lead'}`;
+
+      if (bodyEl) {
+        bodyEl.innerHTML = `
+        <div style="background:var(--field-bg); padding:18px; border-radius:16px; border:1px solid var(--line); display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <b style="font-size:1.1rem; color:var(--ink);">${l.name}</b>
+            <span class="status-tag status-pending">${l.title || 'رسالة تواصل'}</span>
+          </div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">🏥 <b>الجهة الصحية:</b> ${l.org || 'جهة صحية'}</div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">📧 <b>البريد الإلكتروني:</b> ${l.email || 'غير محدد'}</div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">📞 <b>رقم التواصل:</b> ${l.phone || 'غير محدد'}</div>
+          <div style="font-size:.88rem; color:var(--purple-deep); font-weight:700;">📌 <b>نوع الاستفسار:</b> ${l.inquiry || 'تواصل عام'}</div>
+          <div style="font-size:.88rem; color:var(--ink-soft);">🕒 <b>الوقت والتاريخ:</b> ${l.date || 'اليوم'} ${l.timestamp ? '• ' + l.timestamp : ''}</div>
+          <div style="font-size:.86rem; color:var(--ink); background:var(--card); padding:12px 14px; border-radius:12px; border:1px solid var(--line); margin-top:4px;">
+            <b>💬 نص الرسالة والملاحظات:</b><br>"${l.message || l.inquiry || 'طلب تواصل واستشارة عبر الموقع'}"
+          </div>
+        </div>
+      `;
+      }
+
+      if (delBtn) delBtn.onclick = () => window.deleteLeadItem(l.id);
+      const modal = document.getElementById('recordDetailsModal');
+      if (modal) {
+        modal.classList.add('open');
+        modal.style.display = 'flex';
+      }
+    };
+
+    window.deleteLeadItem = function (id) {
+      const isAr = document.body.classList.contains('lang-ar');
+      showConfirm(
+        isAr ? 'تأكيد الحذف' : 'Confirm Deletion',
+        isAr ? 'هل أنت تأكد من حذف هذه الرسالة نهائياً من لوحة التحكم؟' : 'Are you sure you want to delete this inquiry?',
+        () => {
+          let leads = [];
+          try {
+            const raw = localStorage.getItem('preventech_leads');
+            if (raw) leads = JSON.parse(raw);
+          } catch (e) { }
+          if (!leads || leads.length === 0) leads = [...defaultLeads];
+
+          const filtered = leads.filter(l => l.id !== id);
+          localStorage.setItem('preventech_leads', JSON.stringify(filtered));
+          window.dispatchEvent(new Event('storage'));
+          renderLiveDashboardLeads();
+          renderLiveDashboardNotifications();
+
+          hideRecordModal();
+          showToast(isAr ? 'تم الحذف بنجاح 🗑️' : 'Deleted Successfully 🗑️', isAr ? 'تم حذف الرسالة وإزالتها.' : 'Inquiry record deleted.', 'success');
+        }
+      );
+    };
+
+    // ================= LIVE WEBSITE BOOKINGS SYNC ENGINE =================
     function renderLiveDashboardBookings() {
       let bookings = [];
       try {
@@ -983,7 +1319,12 @@
           <td><span style="color:var(--purple-deep); font-weight:700;">${b.solution || 'استشارة'}</span></td>
           <td>${b.date} • ${b.time}</td>
           <td><span class="status-tag status-confirmed"><span class="t-ar">● ${b.status || 'مؤكدة'}</span><span class="t-en">● ${b.status || 'Confirmed'}</span></span></td>
-          <td><button class="btn-action" onclick="showToast('تفاصيل الحجز', 'تم فتح تفاصيل الموعد للعميل ${b.name}', 'info');"><span class="t-ar">معاينة 📅</span><span class="t-en">View 📅</span></button></td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-action" onclick="viewBookingDetails('${b.id}')" style="background:var(--grad-soft); color:var(--purple-deep); border-color:var(--purple); padding:6px 12px;"><span class="t-ar">معاينة 👁️</span><span class="t-en">View 👁️</span></button>
+              <button class="btn-action" onclick="deleteBookingItem('${b.id}')" style="background:rgba(255,82,82,0.12); color:var(--danger); border-color:rgba(255,82,82,0.3); padding:6px 12px;"><span class="t-ar">حذف 🗑️</span><span class="t-en">Delete 🗑️</span></button>
+            </div>
+          </td>
         </tr>
       `).join('');
       }
@@ -1001,7 +1342,12 @@
           <td>${b.date} • ${b.time}</td>
           <td>${b.phone}<br><span style="font-size:.76rem;color:var(--ink-soft);">${b.email}</span></td>
           <td><span class="status-tag status-confirmed"><span class="t-ar">● ${b.status || 'مؤكدة'}</span><span class="t-en">● ${b.status || 'Confirmed'}</span></span></td>
-          <td><button class="btn-action" onclick="showToast('بدء الجلسة الافتراضية', 'جاري الربط والاتصال بموعد العميل ${b.name}...', 'info');" style="background:var(--grad); color:#fff;"><span class="t-ar">بدء الجلسة 🎥</span><span class="t-en">Launch Session 🎥</span></button></td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-action" onclick="viewBookingDetails('${b.id}')" style="background:var(--grad-soft); color:var(--purple-deep); border-color:var(--purple); padding:6px 12px;"><span class="t-ar">معاينة 👁️</span><span class="t-en">View 👁️</span></button>
+              <button class="btn-action" onclick="deleteBookingItem('${b.id}')" style="background:rgba(255,82,82,0.12); color:var(--danger); border-color:rgba(255,82,82,0.3); padding:6px 12px;"><span class="t-ar">حذف 🗑️</span><span class="t-en">Delete 🗑️</span></button>
+            </div>
+          </td>
         </tr>
       `).join('');
       }
@@ -1011,33 +1357,6 @@
     window.addEventListener('storage', renderLiveDashboardBookings);
 
     // ================= LIVE WEBSITE CONTACT LEADS & INQUIRIES SYNC ENGINE =================
-    const defaultLeads = [
-      {
-        id: 'LD-1042',
-        name: 'د. فهد العتيبي',
-        title: 'مدير الشؤون الطبية',
-        org: 'مستشفى السلام الدولي',
-        email: 'fahad@alsalam-hospital.sa',
-        phone: '+966 50 888 1122',
-        inquiry: 'طلب استشارة في تقنيات الرعاية الصحية',
-        solution: 'Mo\'eenTech AI',
-        message: 'طلب استشارة واجتماع دمج لأنظمة الذكاء الاصطناعي مع المستشفى.',
-        date: 'اليوم 11:20 AM'
-      },
-      {
-        id: 'LD-1041',
-        name: 'أ. مريم الدوسري',
-        title: 'رئيسة التحول الرقمي',
-        org: 'مدينة الملك عبدالملك الطبية',
-        email: 'm.dosari@kkmc.med.sa',
-        phone: '+966 55 443 9911',
-        inquiry: 'استفسار عن حلول الذكاء الاصطناعي',
-        solution: 'Healora',
-        message: 'استفسار حول حلول التشخيص المبكر وتراخيص SaMD.',
-        date: 'أمس 04:15 PM'
-      }
-    ];
-
     function renderLiveDashboardLeads() {
       let leads = [];
       try {
@@ -1070,7 +1389,12 @@
           <td>${l.email || '-'}<br><span style="font-size:.76rem;color:var(--ink-soft);">${l.phone || '-'}</span></td>
           <td><b style="color:var(--purple-deep);">${l.inquiry || 'استفسار عام'}</b><br><span style="font-size:.76rem;color:var(--ink-soft);">${l.solution || 'Mo\'eenTech'}</span></td>
           <td>${l.date || 'اليوم'} ${l.timestamp ? '• ' + l.timestamp : ''}</td>
-          <td><button class="btn-action" onclick="showToast('تفاصيل الرسالة', 'رسالة العميل: ${l.message || l.inquiry}', 'info');"><span class="t-ar">قراءة ✉️</span><span class="t-en">Read ✉️</span></button></td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-action" onclick="viewLeadDetails('${l.id}')" style="background:var(--grad-soft); color:var(--purple-deep); border-color:var(--purple); padding:6px 12px;"><span class="t-ar">معاينة 👁️</span><span class="t-en">View 👁️</span></button>
+              <button class="btn-action" onclick="deleteLeadItem('${l.id}')" style="background:rgba(255,82,82,0.12); color:var(--danger); border-color:rgba(255,82,82,0.3); padding:6px 12px;"><span class="t-ar">حذف 🗑️</span><span class="t-en">Delete 🗑️</span></button>
+            </div>
+          </td>
         </tr>
       `).join('');
       }
@@ -1088,7 +1412,12 @@
           <td>${l.email}<br><span style="font-size:.76rem;color:var(--ink-soft);">${l.phone}</span></td>
           <td style="max-width:260px; white-space:normal; font-size:.82rem;">"${l.message || 'طلب تواصل واستشارة عبر الموقع'}"</td>
           <td>${l.date || 'اليوم'} ${l.timestamp ? '<br><span style="font-size:.74rem;color:var(--ink-soft);">' + l.timestamp + '</span>' : ''}</td>
-          <td><button class="btn-action" onclick="showToast('الرد السريع', 'تم فتح نموذج الرد المباشر لـ ${l.name}', 'info');" style="background:var(--grad); color:#fff;"><span class="t-ar">رد عاجل ✉️</span><span class="t-en">Reply ✉️</span></button></td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-action" onclick="viewLeadDetails('${l.id}')" style="background:var(--grad-soft); color:var(--purple-deep); border-color:var(--purple); padding:6px 12px;"><span class="t-ar">معاينة 👁️</span><span class="t-en">View 👁️</span></button>
+              <button class="btn-action" onclick="deleteLeadItem('${l.id}')" style="background:rgba(255,82,82,0.12); color:var(--danger); border-color:rgba(255,82,82,0.3); padding:6px 12px;"><span class="t-ar">حذف 🗑️</span><span class="t-en">Delete 🗑️</span></button>
+            </div>
+          </td>
         </tr>
       `).join('');
       }
@@ -1121,6 +1450,7 @@
 
       bookings.forEach(b => {
         notifItems.push({
+          id: b.id,
           type: 'consultations',
           icon: '📅',
           titleAr: `حجز موعد استشارة جديد: ${b.name}`,
@@ -1138,6 +1468,7 @@
 
       leads.forEach(l => {
         notifItems.push({
+          id: l.id,
           type: 'leads',
           icon: '📩',
           titleAr: `رسالة تواصل جديدة: ${l.name}`,
@@ -1191,7 +1522,7 @@
           listContainer.innerHTML = `<div style="text-align:center; padding:40px; color:var(--ink-soft);"><span class="t-ar">لا توجد إشعارات حالياً</span><span class="t-en">No notifications currently</span></div>`;
         } else {
           listContainer.innerHTML = filteredItems.map(n => `
-            <div class="notif-item ${n.unread ? 'unread' : ''} nav-trigger" data-tab="${n.targetTab}">
+            <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="${n.type === 'consultations' ? `viewBookingDetails('${n.id}')` : `viewLeadDetails('${n.id}')`}">
               <div class="notif-icon">${n.icon}</div>
               <div class="notif-content">
                 <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
@@ -1204,7 +1535,10 @@
                 </div>
                 <div class="notif-footer">
                   <span class="notif-time"><span class="t-ar">${n.timeAr}</span><span class="t-en">${n.timeEn}</span></span>
-                  <span class="notif-action-btn nav-trigger" data-tab="${n.targetTab}"><span class="t-ar">${n.actionAr}</span><span class="t-en">${n.actionEn}</span></span>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="btn-action" onclick="event.stopPropagation(); ${n.type === 'consultations' ? `viewBookingDetails('${n.id}')` : `viewLeadDetails('${n.id}')`}" style="background:var(--grad-soft); color:var(--purple-deep); border-color:var(--purple); padding:5px 12px; font-size:.78rem;"><span class="t-ar">معاينة 👁️</span><span class="t-en">View 👁️</span></button>
+                    <button class="btn-action" onclick="event.stopPropagation(); ${n.type === 'consultations' ? `deleteBookingItem('${n.id}')` : `deleteLeadItem('${n.id}')`}" style="background:rgba(255,82,82,0.12); color:var(--danger); border-color:rgba(255,82,82,0.3); padding:5px 12px; font-size:.78rem;"><span class="t-ar">حذف 🗑️</span><span class="t-en">Delete 🗑️</span></button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1318,3 +1652,4 @@
     }
 
     renderAvailabilityCMS();
+    loadCmsFromStorage();
