@@ -3,7 +3,7 @@
 
   // ضع رابط الـWorker بعد Deploy.
   const API_BASE = "https://preventech-api.negm.workers.dev";
-  const ADMIN_KEY_SESSION = "preventech_admin_api_key_v1";
+  const ADMIN_KEY_STORAGE = "preventech_admin_api_key_v1";
 
   let suppressLocalChange = false;
   let syncing = false;
@@ -20,7 +20,7 @@
   }
 
   function getAdminKey() {
-    let key = sessionStorage.getItem(ADMIN_KEY_SESSION);
+    let key = localStorage.getItem(ADMIN_KEY_STORAGE);
     if (key) return key;
 
     key = window.prompt(
@@ -29,7 +29,7 @@
 
     if (!key) return null;
     key = key.trim();
-    sessionStorage.setItem(ADMIN_KEY_SESSION, key);
+    localStorage.setItem(ADMIN_KEY_STORAGE, key);
     return key;
   }
 
@@ -55,7 +55,7 @@
 
     if (!response.ok || payload?.ok === false) {
       if (response.status === 401) {
-        sessionStorage.removeItem(ADMIN_KEY_SESSION);
+        localStorage.removeItem(ADMIN_KEY_STORAGE);
       }
       throw new Error(payload?.error || `HTTP ${response.status}`);
     }
@@ -260,7 +260,7 @@
     refresh: pullRemote,
     sync: pushLocalChanges,
     logoutApi: () => {
-      sessionStorage.removeItem(ADMIN_KEY_SESSION);
+      localStorage.removeItem(ADMIN_KEY_STORAGE);
       location.reload();
     }
   };
